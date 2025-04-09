@@ -1,14 +1,10 @@
-// app/layout.tsx
-
 import type { Metadata } from "next";
 import "./globals.css";
+import { Head } from "next/document";
 
 export const metadata: Metadata = {
   title: "IELTS with Maxmudov. M.",
   description: "Maxmudov Mirasror",
-  verification: {
-    google: "L-7zlnYOZGRbdV_75f-GYgldZY7-Y_K17fi1SckoybE",
-  },
 };
 
 export default function RootLayout({
@@ -18,6 +14,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Head>
+        <meta
+          name="google-site-verification"
+          content="L-7zlnYOZGRbdV_75f-GYgldZY7-Y_K17fi1SckoybE"
+        />
+      </Head>
       <body>{children}</body>
     </html>
   );
