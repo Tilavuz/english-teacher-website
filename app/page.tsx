@@ -131,7 +131,7 @@ export default function Home() {
                   </Link>
                 </div>
               </div>
-              <div className="flex items-center justify-center w-[550px] h-[550px] overflow-hidden rounded-2xl">
+              <div className="flex items-center justify-center max-w-[550px] max-h-[550px] w-full overflow-hidden rounded-2xl">
                 <Image
                   src="/image1.jpg?height=550&width=550"
                   width={550}
