@@ -1,3 +1,4 @@
+"use client";
 import { AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@/components/ui/avatar";
 import { Avatar } from "@/components/ui/avatar";
@@ -13,8 +14,56 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { botToken, chatId } from "@/utils/shared";
+import { FormEvent, useState } from "react";
 
 export default function Home() {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const form = e.currentTarget;
+    const data = {
+      firstName: (form.elements.namedItem("first-name") as HTMLInputElement)
+        .value,
+      lastName: (form.elements.namedItem("last-name") as HTMLInputElement)
+        .value,
+      phone: (form.elements.namedItem("phone") as HTMLInputElement).value,
+      subject: (form.elements.namedItem("subject") as HTMLInputElement).value,
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement)
+        .value,
+    };
+
+    const text = `
+<b>📥 Yangi Murojaat!</b>
+
+👤 Ismi: <b>${data?.firstName}</b>
+👤 Familiyasi: <b>${data?.lastName}</b>
+📞 Telefon: <b>${data?.phone}</b>
+📌 Mavzu: <b>${data?.subject}</b>
+📝 Xabar: <b>${data?.message}</b>
+`;
+
+    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text,
+        parse_mode: "HTML",
+      }),
+    });
+
+    alert("Xabar muvaffaqiyatli yuborildi!");
+    form.reset();
+
+    setLoading(false);
+  };
+
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -82,9 +131,9 @@ export default function Home() {
                   </Link>
                 </div>
               </div>
-              <div className="flex items-center justify-center">
+              <div className="flex items-center justify-center w-[550px] h-[550px] overflow-hidden rounded-2xl">
                 <Image
-                  src="/placeholder.svg?height=550&width=550"
+                  src="/image1.jpg?height=550&width=550"
                   width={550}
                   height={550}
                   alt="English teacher in classroom"
@@ -111,7 +160,7 @@ export default function Home() {
             </div>
             <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
               <Image
-                src="/placeholder.svg?height=400&width=400"
+                src="/image1.jpg?height=400&width=400"
                 width={400}
                 height={400}
                 alt="Teacher portrait"
@@ -649,64 +698,69 @@ export default function Home() {
                   </div>
                   <div className="flex items-center gap-3">
                     <MessageSquare className="h-5 w-5 text-emerald-600" />
-                    <span>+1 (555) 123-4567</span>
+                    <span>+998 99 645 6867</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <Users className="h-5 w-5 text-emerald-600" />
                     <span>Virtual and in-person sessions available</span>
                   </div>
                   <div className="grid grid-cols-4 gap-4 pt-4">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="rounded-full"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="h-5 w-5"
+                    <Link href={"https://t.me/Maxmudov003"} target="_blank">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="rounded-full"
                       >
-                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-                      </svg>
-                      <span className="sr-only">Facebook</span>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="rounded-full"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="h-5 w-5"
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="h-5 w-5"
+                        >
+                          <path d="M21.05 2.39 2.9 10.28c-.84.34-.83.8-.15 1.01l4.56 1.43 1.75 5.56c.22.68.4.94.82.94.42 0 .6-.2.83-.44l2-2.05 4.15 3.05c.76.42 1.3.2 1.48-.7L22.97 3.7c.27-1.06-.4-1.52-1.12-1.31Z" />
+                        </svg>
+                        <span className="sr-only">Telegram</span>
+                      </Button>
+                    </Link>
+
+                    <Link href={"https://www.instagram.com/makhmudov.ms003"}>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="rounded-full"
                       >
-                        <rect
-                          width="20"
-                          height="20"
-                          x="2"
-                          y="2"
-                          rx="5"
-                          ry="5"
-                        />
-                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                        <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-                      </svg>
-                      <span className="sr-only">Instagram</span>
-                    </Button>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="h-5 w-5"
+                        >
+                          <rect
+                            width="20"
+                            height="20"
+                            x="2"
+                            y="2"
+                            rx="5"
+                            ry="5"
+                          />
+                          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                          <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+                        </svg>
+                        <span className="sr-only">Instagram</span>
+                      </Button>
+                    </Link>
                     <Button
                       variant="outline"
                       size="icon"
@@ -762,7 +816,7 @@ export default function Home() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <form className="grid gap-4">
+                  <form className="grid gap-4" onSubmit={handleSubmit}>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="grid gap-2">
                         <label
@@ -773,6 +827,7 @@ export default function Home() {
                         </label>
                         <input
                           id="first-name"
+                          name="first-name"
                           className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                           placeholder="John"
                         />
@@ -785,6 +840,7 @@ export default function Home() {
                           Last name
                         </label>
                         <input
+                          name="last-name"
                           id="last-name"
                           className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                           placeholder="Doe"
@@ -799,6 +855,7 @@ export default function Home() {
                         Phone
                       </label>
                       <input
+                        name="phone"
                         id="phone"
                         type="text"
                         className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
@@ -814,6 +871,7 @@ export default function Home() {
                       </label>
                       <input
                         id="subject"
+                        name="subject"
                         className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                         placeholder="I'm interested in..."
                       />
@@ -826,13 +884,18 @@ export default function Home() {
                         Message
                       </label>
                       <textarea
+                        name="message"
                         id="message"
                         className="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                         placeholder="Tell me about your learning goals..."
                       />
                     </div>
-                    <Button className="w-full bg-emerald-600 hover:bg-emerald-700">
-                      Send Message
+                    <Button
+                      type="submit"
+                      className="w-full bg-emerald-600 hover:bg-emerald-700"
+                      disabled={loading}
+                    >
+                      {loading ? "loading..." : "Send Message"}
                     </Button>
                   </form>
                 </CardContent>
