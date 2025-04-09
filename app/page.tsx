@@ -23,7 +23,7 @@ export default function Home() {
             <Book className="h-6 w-6" />
             <span>Maxmudov</span>
           </Link>
-          <nav className="ml-auto flex gap-4 sm:gap-6">
+          <nav className="ml-auto gap-4 sm:gap-6 hidden sm:flex">
             <Link
               href="#about"
               className="text-sm font-medium hover:underline underline-offset-4"
